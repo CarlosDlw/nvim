@@ -1,6 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
-
 local map = vim.keymap.set
 
 -- Salvar e sair
@@ -27,13 +24,25 @@ map("n", "<M-j>", "<cmd>resize -2<cr>", { desc = "Resize Down" })
 map("i", "<C-j>", "<esc>", { desc = "Exit Insert Mode" })
 
 -- LSP / Code actions (<leader>c)
-map("n", "<leader>ch", vim.lsp.buf.hover, { desc = "Hover Info" })
+map("n", "<leader>ck", vim.lsp.buf.hover, { desc = "Hover Info" })
+map("n", "<leader>cg", vim.lsp.buf.definition, { desc = "Go to Definition" })
+map("n", "<leader>cG", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
+map("n", "<leader>cI", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
+map("n", "<leader>cT", vim.lsp.buf.type_definition, { desc = "Go to Type Definition" })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
 map("n", "<leader>cs", vim.lsp.buf.signature_help, { desc = "Signature Help" })
 map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
 map("n", "<leader>ci", "<cmd>LspInfo<cr>", { desc = "LSP Info" })
-map("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format" })
-map("v", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format Selection" })
-map("n", "<leader>cw", function() vim.lsp.buf.workspace_symbol("") end, { desc = "Workspace Symbols" })
+
+map("n", "<leader>cf", function()
+  vim.lsp.buf.format({ async = true })
+end, { desc = "Format" })
+map("v", "<leader>cf", function()
+  vim.lsp.buf.format({ async = true })
+end, { desc = "Format Selection" })
+map("n", "<leader>cw", function()
+  vim.lsp.buf.workspace_symbol("")
+end, { desc = "Workspace Symbols" })
 
 -- Go-to (g/G)
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
