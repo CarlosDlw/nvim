@@ -21,7 +21,7 @@ return {
       { "<leader>fw", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
       { "<leader>fs", "<cmd>Telescope treesitter<cr>", desc = "Treesitter Symbols" },
       { "<leader>fc", "<cmd>Telescope lsp_incoming_calls<cr>", desc = "LSP Incoming Calls" },
-      { "<leader>fw", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = "File Browser" },
+      { "<leader>fe", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = "File Browser" },
       { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
       { "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
       {
