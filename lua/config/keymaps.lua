@@ -1,5 +1,71 @@
 local map = vim.keymap.set
 
+local function feedkeys(keys)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "m", false)
+end
+
+local function surround_input(prompt)
+  local value = vim.fn.input(prompt)
+  vim.cmd.redraw()
+  if value == nil or value == "" then
+    return nil
+  end
+  return value
+end
+
+local function surround_add(char, linewise)
+  local mode = vim.fn.mode()
+  if mode:match("[vV\22]") then
+    feedkeys((linewise and "gS" or "S") .. char)
+    return
+  end
+  feedkeys((linewise and "yss" or "ysiw") .. char)
+end
+
+local function surround_change(linewise)
+  local target = surround_input("Change surround target: ")
+  if not target then
+    return
+  end
+  local replacement = surround_input("Change surround replacement: ")
+  if not replacement then
+    return
+  end
+  feedkeys((linewise and "cS" or "cs") .. target .. replacement)
+end
+
+local function surround_delete()
+  local target = surround_input("Delete surround: ")
+  if not target then
+    return
+  end
+  feedkeys("ds" .. target)
+end
+
+local function surround_delete_char(char)
+  feedkeys("ds" .. char)
+end
+
+local function surround_add_prompt(linewise)
+  local char = surround_input("Surround with: ")
+  if not char then
+    return
+  end
+  surround_add(char, linewise)
+end
+
+local function surround_change_to(target, replacement, linewise)
+  feedkeys((linewise and "cS" or "cs") .. target .. replacement)
+end
+
+local function surround_change_prompt_target(replacement, linewise)
+  local target = surround_input("Change surround target: ")
+  if not target then
+    return
+  end
+  surround_change_to(target, replacement, linewise)
+end
+
 -- Salvar e sair
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
@@ -55,3 +121,96 @@ map("n", "gr", vim.lsp.buf.references, { desc = "Go to References" })
 map("n", "<leader>ce", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
+
+-- Around / Surround helpers (<leader>a)
+map({ "n", "x" }, "<leader>aa", function()
+  surround_add_prompt(false)
+end, { desc = "Surround Prompt" })
+map("n", "<leader>aA", function()
+  surround_add_prompt(true)
+end, { desc = "Surround Line Prompt" })
+map("n", "<leader>ad", surround_delete, { desc = "Delete Surround" })
+map("n", "<leader>ar", function()
+  surround_change(false)
+end, { desc = "Replace Surround" })
+map("n", "<leader>aR", function()
+  surround_change(true)
+end, { desc = "Replace Surround Linewise" })
+map({ "n", "x" }, "<leader>aq", function()
+  surround_add('"', false)
+end, { desc = "Surround Double Quotes" })
+map({ "n", "x" }, "<leader>aQ", function()
+  surround_add("'", false)
+end, { desc = "Surround Single Quotes" })
+map({ "n", "x" }, "<leader>ap", function()
+  surround_add(")", false)
+end, { desc = "Surround Parentheses" })
+map({ "n", "x" }, "<leader>ab", function()
+  surround_add("]", false)
+end, { desc = "Surround Brackets" })
+map({ "n", "x" }, "<leader>aB", function()
+  surround_add("}", false)
+end, { desc = "Surround Braces" })
+map({ "n", "x" }, "<leader>al", function()
+  surround_add(">", false)
+end, { desc = "Surround Angle Brackets" })
+map({ "n", "x" }, "<leader>ak", function()
+  surround_add("`", false)
+end, { desc = "Surround Backticks" })
+map({ "n", "x" }, "<leader>at", function()
+  surround_add("t", false)
+end, { desc = "Surround Tag" })
+map({ "n", "x" }, "<leader>af", function()
+  surround_add("f", false)
+end, { desc = "Surround Function Call" })
+map({ "n", "x" }, "<leader>ai", function()
+  surround_add("i", false)
+end, { desc = "Surround Custom Delimiters" })
+map("n", "<leader>axq", function()
+  surround_delete_char("q")
+end, { desc = "Delete Nearest Quote Surround" })
+map("n", "<leader>axp", function()
+  surround_delete_char(")")
+end, { desc = "Delete Parentheses Surround" })
+map("n", "<leader>axb", function()
+  surround_delete_char("]")
+end, { desc = "Delete Brackets Surround" })
+map("n", "<leader>axB", function()
+  surround_delete_char("}")
+end, { desc = "Delete Braces Surround" })
+map("n", "<leader>axl", function()
+  surround_delete_char(">")
+end, { desc = "Delete Angle Brackets Surround" })
+map("n", "<leader>axt", function()
+  surround_delete_char("t")
+end, { desc = "Delete Tag Surround" })
+map("n", "<leader>axf", function()
+  surround_delete_char("f")
+end, { desc = "Delete Function Call Surround" })
+map("n", "<leader>acq", function()
+  surround_change_to("q", '"', false)
+end, { desc = "Change Quote Surround to Double Quotes" })
+map("n", "<leader>acQ", function()
+  surround_change_to("q", "'", false)
+end, { desc = "Change Quote Surround to Single Quotes" })
+map("n", "<leader>ack", function()
+  surround_change_to("q", "`", false)
+end, { desc = "Change Quote Surround to Backticks" })
+map("n", "<leader>acp", function()
+  surround_change_to("s", ")", false)
+end, { desc = "Change Surround to Parentheses" })
+map("n", "<leader>acb", function()
+  surround_change_to("s", "]", false)
+end, { desc = "Change Surround to Brackets" })
+map("n", "<leader>acB", function()
+  surround_change_to("s", "}", false)
+end, { desc = "Change Surround to Braces" })
+map("n", "<leader>acl", function()
+  surround_change_to("s", ">", false)
+end, { desc = "Change Surround to Angle Brackets" })
+map("n", "<leader>act", function()
+  surround_change_prompt_target("t", false)
+end, { desc = "Change Surround to Tag" })
+map("n", "<leader>acf", function()
+  surround_change_prompt_target("f", false)
+end, { desc = "Change Surround to Function Call" })

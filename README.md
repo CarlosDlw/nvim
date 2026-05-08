@@ -96,6 +96,15 @@ Spectre is configured for project and scoped replacement:
 - ds + char: delete surround
 - cs + old + new: change surround
 - S (visual): surround selection
+- <leader>aa: prompt surround for current word or selection
+- <leader>aA: prompt surround for current line
+- <leader>ad: prompt delete surround target
+- <leader>ar: prompt change surround target and replacement
+- <leader>aq / <leader>aQ: double or single quotes
+- <leader>ap / <leader>ab / <leader>aB / <leader>al / <leader>ak: parentheses, brackets, braces, angle brackets, backticks
+- <leader>at / <leader>af / <leader>ai: tag, function call, custom delimiters
+- <leader>ax*: direct delete shortcuts by surround type
+- <leader>ac*: direct change-to shortcuts by surround type
 
 ### Autocommands for Productivity
 
@@ -131,6 +140,29 @@ Spectre is configured for project and scoped replacement:
 - <leader>cI: implementation
 - <leader>cT: type definition
 - <leader>ce: line diagnostics
+
+### Around / Surround Helpers
+
+- <leader>aa: add surround with prompt
+- <leader>aA: add surround to current line with prompt
+- <leader>ad: delete surround with prompt
+- <leader>ar: replace surround with prompt
+- <leader>aR: replace surround linewise
+- <leader>aq: surround with double quotes
+- <leader>aQ: surround with single quotes
+- <leader>ap: surround with parentheses
+- <leader>ab: surround with brackets
+- <leader>aB: surround with braces
+- <leader>al: surround with angle brackets
+- <leader>ak: surround with backticks
+- <leader>at: surround with tag
+- <leader>af: surround with function call
+- <leader>ai: surround with custom delimiters
+- <leader>axq / <leader>axp / <leader>axb / <leader>axB / <leader>axl: delete quote, parens, brackets, braces, angle brackets
+- <leader>axt / <leader>axf: delete tag or function call surround
+- <leader>acq / <leader>acQ / <leader>ack: change nearest quote surround to double quotes, single quotes, backticks
+- <leader>acp / <leader>acb / <leader>acB / <leader>acl: change nearest standard surround to parens, brackets, braces, angle brackets
+- <leader>act / <leader>acf: change chosen surround to tag or function call
 
 ### Window Management
 
