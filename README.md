@@ -24,6 +24,7 @@ This configuration keeps both Snacks Explorer and Telescope File Browser because
 - Git UX: Gitsigns + Diffview
 - Project-wide search/replace: Spectre
 - Comments: Comment.nvim
+- Text editing: nvim-surround
 
 ## Notable Customizations
 
@@ -87,6 +88,14 @@ Spectre is configured for project and scoped replacement:
 - <leader>sr: open search and replace panel
 - <leader>sw: search current word (normal) or selection (visual)
 - <leader>sf: search inside current file
+
+### Text Editing (Surround)
+
+- ys + motion + char: add surround
+- yss: add surround to current line
+- ds + char: delete surround
+- cs + old + new: change surround
+- S (visual): surround selection
 
 ### Autocommands for Productivity
 
