@@ -4,10 +4,20 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        cond = function()
+          return vim.fn.executable("make") == 1
+        end,
+      },
+      "nvim-telescope/telescope-ui-select.nvim",
     },
     keys = {
       { "<leader>f", "", desc = "FFind Telescope" },
       { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+      { "<leader>f/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in Current Buffer" },
+      { "<leader>f.", "<cmd>Telescope resume<cr>", desc = "Resume Last Picker" },
       {
         "<leader>fp",
         function()
@@ -16,6 +26,7 @@ return {
         desc = "Find Plugin File",
       },
       { "<leader>fr", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+      { "<leader>fW", "<cmd>Telescope grep_string<cr>", desc = "Word Under Cursor" },
       { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
       { "<leader>ft", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
       { "<leader>fw", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
@@ -61,6 +72,25 @@ return {
     },
     opts = {
       defaults = {
+        path_display = { "smart" },
+        file_ignore_patterns = {
+          "%.git/",
+          "node_modules/",
+          "dist/",
+          "build/",
+          "target/",
+          "%.cache/",
+        },
+        mappings = {
+          i = {
+            ["<C-j>"] = require("telescope.actions").move_selection_next,
+            ["<C-k>"] = require("telescope.actions").move_selection_previous,
+            ["<C-q>"] = require("telescope.actions").send_to_qflist,
+          },
+          n = {
+            ["<C-q>"] = require("telescope.actions").send_to_qflist,
+          },
+        },
         layout_strategy = "center",
         layout_config = {
           center = {
@@ -80,12 +110,25 @@ return {
         winblend = 0,
         borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       },
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+        live_grep = {
+          additional_args = function()
+            return { "--hidden", "--glob", "!.git/*" }
+          end,
+        },
+      },
       extensions = {
         file_browser = {
           hijack_netrw = true,
           grouped = true,
           hidden = true,
           respect_gitignore = false,
+        },
+        ["ui-select"] = {
+          require("telescope.themes").get_dropdown({}),
         },
       },
     },
@@ -99,6 +142,8 @@ return {
       local telescope = require("telescope")
       telescope.setup(opts)
       telescope.load_extension("file_browser")
+      pcall(telescope.load_extension, "fzf")
+      telescope.load_extension("ui-select")
     end,
   },
 }

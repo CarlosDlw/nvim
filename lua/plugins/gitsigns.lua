@@ -2,7 +2,7 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     opts = {
-      current_line_blame = true,
+      current_line_blame = false,
       current_line_blame_opts = {
         delay = 300,
       },
@@ -18,7 +18,8 @@ return {
         map("n", "<leader>gr", gs.reset_hunk, { buffer = bufnr, desc = "Reset Hunk" })
         map("n", "<leader>gS", gs.stage_buffer, { buffer = bufnr, desc = "Stage Buffer" })
         map("n", "<leader>gR", gs.reset_buffer, { buffer = bufnr, desc = "Reset Buffer" })
-        map("n", "<leader>gb", gs.blame_line, { buffer = bufnr, desc = "Blame Line" })
+        map("n", "<leader>gb", gs.toggle_current_line_blame, { buffer = bufnr, desc = "Toggle Line Blame" })
+        map("n", "<leader>gL", gs.blame_line, { buffer = bufnr, desc = "Blame Line" })
         map("n", "<leader>gB", function() gs.blame_line({ full = true }) end, { buffer = bufnr, desc = "Blame Line (full)" })
       end,
     },
