@@ -70,68 +70,73 @@ return {
         desc = "Search TODOs",
       },
     },
-    opts = {
-      defaults = {
-        path_display = { "smart" },
-        file_ignore_patterns = {
-          "%.git/",
-          "node_modules/",
-          "dist/",
-          "build/",
-          "target/",
-          "%.cache/",
-        },
-        mappings = {
-          i = {
-            ["<C-j>"] = require("telescope.actions").move_selection_next,
-            ["<C-k>"] = require("telescope.actions").move_selection_previous,
-            ["<C-q>"] = require("telescope.actions").send_to_qflist,
+    opts = function()
+      local actions = require("telescope.actions")
+      local themes = require("telescope.themes")
+
+      return {
+        defaults = {
+          path_display = { "smart" },
+          file_ignore_patterns = {
+            "%.git/",
+            "node_modules/",
+            "dist/",
+            "build/",
+            "target/",
+            "%.cache/",
           },
-          n = {
-            ["<C-q>"] = require("telescope.actions").send_to_qflist,
+          mappings = {
+            i = {
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-k>"] = actions.move_selection_previous,
+              ["<C-q>"] = actions.send_to_qflist,
+            },
+            n = {
+              ["<C-q>"] = actions.send_to_qflist,
+            },
           },
+          layout_strategy = "center",
+          layout_config = {
+            center = {
+              preview_cutoff = 120,
+              width = function(_, cols)
+                return math.floor(cols * 0.85)
+              end,
+              height = function(_, _, lines)
+                return math.floor(lines * 0.8)
+              end,
+            },
+          },
+          sorting_strategy = "ascending",
+          prompt_position = "top",
+          prompt_prefix = "   ",
+          selection_caret = "  ",
+          winblend = 0,
+          borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         },
-        layout_strategy = "center",
-        layout_config = {
-          center = {
-            preview_cutoff = 120,
-            width = function(_, cols)
-              return math.floor(cols * 0.85)
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+          live_grep = {
+            additional_args = function()
+              return { "--hidden", "--glob", "!.git/*" }
             end,
-            height = function(_, _, lines)
-              return math.floor(lines * 0.8)
-            end,
           },
         },
-        sorting_strategy = "ascending",
-        prompt_position = "top",
-        prompt_prefix = "   ",
-        selection_caret = "  ",
-        winblend = 0,
-        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-      },
-      pickers = {
-        find_files = {
-          hidden = true,
+        extensions = {
+          file_browser = {
+            hijack_netrw = true,
+            grouped = true,
+            hidden = true,
+            respect_gitignore = false,
+          },
+          ["ui-select"] = {
+            themes.get_dropdown({}),
+          },
         },
-        live_grep = {
-          additional_args = function()
-            return { "--hidden", "--glob", "!.git/*" }
-          end,
-        },
-      },
-      extensions = {
-        file_browser = {
-          hijack_netrw = true,
-          grouped = true,
-          hidden = true,
-          respect_gitignore = false,
-        },
-        ["ui-select"] = {
-          require("telescope.themes").get_dropdown({}),
-        },
-      },
-    },
+      }
+    end,
     config = function(_, opts)
       local actions = require("telescope.actions")
       opts.extensions.file_browser.mappings = {
