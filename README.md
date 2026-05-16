@@ -37,17 +37,17 @@ This configuration keeps both Snacks Explorer and Telescope File Browser because
 ### Telescope Enhancements
 
 - Extensions enabled:
-	- file_browser
-	- ui-select
-	- fzf-native (auto-enabled when make is available)
+ 	- file_browser
+ 	- ui-select
+ 	- fzf-native (auto-enabled when make is available)
 - Practical defaults:
-	- Smart path display.
-	- Ignore patterns for heavy directories (.git, node_modules, dist, build, target, .cache).
-	- Hidden files included in search while excluding .git internals.
-	- Centered layout with top prompt and ascending sorting.
+ 	- Smart path display.
+ 	- Ignore patterns for heavy directories (.git, node_modules, dist, build, target, .cache).
+ 	- Hidden files included in search while excluding .git internals.
+ 	- Centered layout with top prompt and ascending sorting.
 - Picker workflow mappings:
-	- Ctrl+j / Ctrl+k to move selection.
-	- Ctrl+q to send results to quickfix.
+ 	- Ctrl+j / Ctrl+k to move selection.
+ 	- Ctrl+q to send results to quickfix.
 
 ### Terminal Workflow (ToggleTerm)
 
