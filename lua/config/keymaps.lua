@@ -122,6 +122,40 @@ map("n", "<leader>ce", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 
+-- Markers workflow
+for i = 97, 122 do
+  local c = string.char(i)
+
+  -- set mark
+  map("n", "mm" .. c, function()
+    vim.cmd("mark " .. c)
+  end, { desc = "Set Mark " .. c })
+
+  -- goto full position (line + column)
+  map("n", "mg" .. c, function()
+    vim.cmd("normal! `" .. c)
+  end, { desc = "Go to Mark " .. c })
+
+  -- goto line only
+  map("n", "ml" .. c, function()
+    vim.cmd("normal! '" .. c)
+  end, { desc = "Go to Mark Line " .. c })
+
+  -- delete mark
+  map("n", "mc" .. c, function()
+    vim.cmd("delmarks " .. c)
+  end, { desc = "Delete Mark " .. c })
+
+  map("n", "mr" .. c, function()
+    vim.cmd("delmarks " .. c)
+  end, { desc = "Delete Mark " .. c })
+end
+
+--
+map("n", "mra", function()
+  vim.cmd("delmarks!")
+end, { desc = "Delete All Marks" })
+
 -- Around / Surround helpers (<leader>a)
 map({ "n", "x" }, "<leader>aa", function()
   surround_add_prompt(false)
