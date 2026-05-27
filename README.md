@@ -37,7 +37,7 @@ Start Neovim!
 
 ```bash
 nvim
-``
+```
 
 ## Design Goals
 
