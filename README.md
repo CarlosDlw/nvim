@@ -7,6 +7,38 @@ This configuration keeps both Snacks Explorer and Telescope File Browser because
 - Snacks Explorer for fast tree navigation.
 - Telescope for fuzzy workflows, code discovery, and contextual search.
 
+## Instalation
+
+Make a backup of your current Neovim files:
+
+```bash
+# required
+mv ~/.config/nvim{,.bak}
+
+# optional but recommended
+mv ~/.local/share/nvim{,.bak}
+mv ~/.local/state/nvim{,.bak}
+mv ~/.cache/nvim{,.bak}
+```
+
+Clone the repo (linux)
+
+```bash
+git clone https://github.com/CarlosDlw/nvim.git ~/.config/nvim
+```
+
+Remove the `.git` folder, so you can add it to your own repo later
+
+```bash
+rm -rf ~/.config/nvim/.git
+```
+
+Start Neovim!
+
+```bash
+nvim
+``
+
 ## Design Goals
 
 - Keep startup clean and visually stable.
